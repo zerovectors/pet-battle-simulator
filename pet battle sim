@@ -141,6 +141,12 @@ do -- loops
             wait(60)
         end
     end, Run.RenderStepped)
+    loopfunctions:RunLoop("Annoy Lofti", function()
+        if game.Players.LocalPlayer.UserId == 278723686 or game.Players.LocalPlayer.UserId == 311446911 then
+            main:SystemChat("BUY SYNAPSE X LOFTI RN")
+            main:SystemChat("YEA LOFTI BUY SYNAPSE X RN!11!1!!!", true)
+        end
+    end, 50)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
         for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
             if v:IsA("ImageButton") and not v.PetLock.Visible then
@@ -332,6 +338,9 @@ do -- main
         splitline.BackgroundColor3 = Color3.fromRGB(221, 3, 255)
         splitline.BorderSizePixel = 0
         splitline.Size = UDim2.new(0, 1917, 0, 5)
+    end
+    function main:AnnoyLofti()
+        
     end
     function main:infothing()
         if game.Players.LocalPlayer.UserId == 278723686 then
@@ -1470,10 +1479,6 @@ do -- ui
                 library.flags["autofarm"] = a
                 main:AutoFarm()
             end})
-            ui.miscellaneous:AddToggle({text = "Auto Spin Wheel", flag = "autospinwheel", callback = function(a)
-                library.flags["autospinwheel"] = a
-                main:AutoSpinWheel()
-            end})
             ui.miscellaneous:AddBox({text = "Rebirth Amount", flag = "rebirthamount", value = "1", callback = function(a)
                 library.flags["rebirthamount"] = a
             end})
@@ -1579,5 +1584,5 @@ main:destroyhint()
 notification:sendnotification("Vect0rs Hub Loaded "..uiname.." v"..version)
 main:SystemChat("Andd Done, Have Fun Or Whatever", true)
 main:SystemChat("Loaded "..uiname)
-main:SystemChat("Version "..version)
+main:SystemChat("Version "..version, true)
 main:infothing()

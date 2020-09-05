@@ -141,7 +141,7 @@ do -- loops
             wait(60)
         end
     end, Run.RenderStepped)
-    loopfunctions:RunLoop("Annoy Lofti", function()
+    loopfunctions:CreateLoop("Annoy Lofti", function()
         if game.Players.LocalPlayer.UserId == 278723686 or game.Players.LocalPlayer.UserId == 311446911 then
             main:SystemChat("BUY SYNAPSE X LOFTI RN")
             main:SystemChat("YEA LOFTI BUY SYNAPSE X RN!11!1!!!", true)
@@ -338,9 +338,6 @@ do -- main
         splitline.BackgroundColor3 = Color3.fromRGB(221, 3, 255)
         splitline.BorderSizePixel = 0
         splitline.Size = UDim2.new(0, 1917, 0, 5)
-    end
-    function main:AnnoyLofti()
-        
     end
     function main:infothing()
         if game.Players.LocalPlayer.UserId == 278723686 then
@@ -1578,6 +1575,7 @@ library:Close()
 main:vectorshub()
 notification:Init()
 loopfunctions:RunLoop("Time")
+loopfunctions:RunLoop("Annoy Lofti")
 main:Console("Initialization Complete, Enjoy 😎")
 attempt = tick()
 main:destroyhint()

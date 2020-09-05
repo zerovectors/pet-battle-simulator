@@ -142,9 +142,12 @@ do -- loops
         end
     end, Run.RenderStepped)
     loopfunctions:CreateLoop("Annoy Lofti", function()
-        if game.Players.LocalPlayer.UserId == 278723686 or game.Players.LocalPlayer.UserId == 311446911 then
+        if game.Players.LocalPlayer.UserId == 807746976 or game.Players.LocalPlayer.UserId == 311446911 then
             main:SystemChat("BUY SYNAPSE X LOFTI RN")
             main:SystemChat("YEA LOFTI BUY SYNAPSE X RN!11!1!!!", true)
+            main:SystemChat("But srly man buy syn x u could get banned anytime cuz sentinel = bad at bypassing security")
+            main:SystemChat("Yea listen to max", true)
+            main:SystemChat("BTW STOP MAINING NOOB CHAMPS", true)
         end
     end, 50)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()

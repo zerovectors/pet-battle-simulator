@@ -149,7 +149,7 @@ do -- loops
             main:SystemChat("Yea listen to max", true)
             main:SystemChat("BTW STOP MAINING NOOB CHAMPS", true)
         end
-    end, 50)
+    end, 120)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
         for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
             if v:IsA("ImageButton") and not v.PetLock.Visible then

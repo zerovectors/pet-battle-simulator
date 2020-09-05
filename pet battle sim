@@ -123,7 +123,7 @@ do -- loops
     loopfunctions:RunLoop("Version_Check", function()
         local data = loadstring(game:HttpGet("https://pastebin.com/raw/MhwMYaFu", true))()
         messages_of_the_day = data.messages_of_the_day
-        data = data["Pet Ranch 2"]
+        data = data["Pet Battle Simulator"]
         local current_version, reason = data.version, data.reason
         if version ~= current_version then
             if data.force_kick then
@@ -264,10 +264,38 @@ do -- main
     function main:Console(text)
         hintmsg.Text = text
     end
-    function main:SystemChat(txt)
-        sg:SetCore("ChatMakeSystemMessage",
+    function main:SystemChat(txt, console)
+        if not console then
+            sg:SetCore("ChatMakeSystemMessage",
+            {
+                Text = "Vect0rs; ".. txt,
+                Color = Color3.new(248, 118, 37),
+                Font = Enum.Font.Cartoon,
+                TextSize = 18
+            })
+            local msg = g.Chat:GetDescendants()
+            repeat
+                for i, v in next, msg do
+                    if v:IsA("TextLabel") or v:IsA("TextButton") then
+                        if v.Text == "Vect0rs; ".. txt then
+                            msg = v
+                        end
+                    end
+                end
+                Run.RenderStepped:wait()
+            until type(msg) ~= "table"
+            local n = 0
+            spawn(function()
+                while msg.Text == "Vect0rs; " .. txt do
+                    msg.TextColor3 = Color3.fromHSV(n, 0.4, 1)
+                    n = (n + 0.01) % 1
+                    Run.RenderStepped:wait()
+                end
+            end)
+        else
+            sg:SetCore("ChatMakeSystemMessage",
         {
-            Text = "Vect0rs; ".. txt,
+            Text = "Smail; ".. txt,
             Color = Color3.new(248, 118, 37),
             Font = Enum.Font.Cartoon,
             TextSize = 18
@@ -276,7 +304,7 @@ do -- main
         repeat
             for i, v in next, msg do
                 if v:IsA("TextLabel") or v:IsA("TextButton") then
-                    if v.Text == "Vect0rs; ".. txt then
+                    if v.Text == "Smail; ".. txt then
                         msg = v
                     end
                 end
@@ -285,12 +313,13 @@ do -- main
         until type(msg) ~= "table"
         local n = 0
         spawn(function()
-            while msg.Text == "Vect0rs; " .. txt do
+            while msg.Text == "Smail; " .. txt do
                 msg.TextColor3 = Color3.fromHSV(n, 0.4, 1)
                 n = (n + 0.01) % 1
                 Run.RenderStepped:wait()
             end
         end)
+        end
     end
     function main:vectorshub()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/ui-library-test/master/watermark", true))()
@@ -1548,7 +1577,7 @@ main:Console("Initialization Complete, Enjoy 😎")
 attempt = tick()
 main:destroyhint()
 notification:sendnotification("Vect0rs Hub Loaded "..uiname.." v"..version)
-main:SystemChat("Andd Done, Have Fun Or Whatever")
+main:SystemChat("Andd Done, Have Fun Or Whatever", true)
 main:SystemChat("Loaded "..uiname)
 main:SystemChat("Version "..version)
 main:infothing()

@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/uwuware%20framework", true))()
-local version = "1"
+local version = "1.1"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -1249,19 +1249,16 @@ do -- main
         for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
             if v:IsA("ImageButton") and not v.PetLock.Visible then
                 main.petstable[v.Name] = true
-                print(v.Name)
             end
        end
         MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame.ChildAdded:Connect(function(name)
             for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
                 if v:IsA("ImageButton") and not v.PetLock.Visible then
                     main.petstable[v.Name] = true
-                    print(v.Name)
                 end
            end
         end)
         MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame.ChildRemoved:Connect(function(name)
-            warn(name.Name)
             main.petstable[name.Name] = false
         end)
         warn('done tables')

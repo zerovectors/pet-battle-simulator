@@ -1246,7 +1246,7 @@ do -- main
                 end
             end
         end
-        MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
+        for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
             if v:IsA("ImageButton") and not v.PetLock.Visible then
                 main.petstable[v.Name] = true
                 print(v.Name)

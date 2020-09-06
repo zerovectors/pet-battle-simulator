@@ -151,16 +151,11 @@ do -- loops
         end
     end, 120)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
-        for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
-            if v:IsA("ImageButton") and not v.PetLock.Visible then
-                main.petstable[v.Name] = true
-                local args = {
-                    [1] = "MassDeletePetsFromInventory",
-                    [2] = main.petstable
-                }
-                game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
-            end
-        end
+        local args = {
+            [1] = "MassDeletePetsFromInventory",
+            [2] = main.petstable
+        }
+        game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
     end, 0)
     loopfunctions:CreateLoop("Auto Open Egg", function()
         local args = {"BuyEgg", library.flags["selectedegg"]}
@@ -1251,6 +1246,24 @@ do -- main
                 end
             end
         end
+        MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
+            if v:IsA("ImageButton") and not v.PetLock.Visible then
+                main.petstable[v.Name] = true
+                print(v.Name)
+            end
+       end
+        MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame.ChildAdded:Connect(function(name)
+            for i,v in pairs(MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
+                if v:IsA("ImageButton") and not v.PetLock.Visible then
+                    main.petstable[v.Name] = true
+                    print(v.Name)
+                end
+           end
+        end)
+        MyPlr.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame.ChildRemoved:Connect(function(name)
+            warn(name.Name)
+            main.petstable[name.Name] = false
+        end)
         warn('done tables')
     end
     function main:AutoFarm()

@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/uwuware%20framework", true))()
-local version = "1.2"
+local version = "1.3"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -157,6 +157,10 @@ do -- loops
             [1] = "MassDeletePetsFromInventory",
             [2] = main.petstable
         }
+        game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
+    end, 0)
+    loopfunctions:CreateLoop("Auto Open 3Eggs", function()
+        local args = {"BuyThreeEggs", library.flags["selectedegg"]}
         game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
     end, 0)
     loopfunctions:CreateLoop("Auto Open Egg", function()
@@ -1317,6 +1321,15 @@ do -- main
             notification:sendnotification("Auto Open Egg Disabled")
         end
     end
+    function main:AutoOpen3Eggs()
+        if library.flags["autoopen3eggtog"] then
+            loopfunctions:RunLoop("Auto Open 3Eggs")
+            notification:sendnotification("Auto Open 3 Eggs Enabled")
+        else
+            loopfunctions:StopLoop("Auto Open 3Eggs")
+            notification:sendnotification("Auto Open 3 Eggs Disabled")
+        end
+    end
     function main:AutoDeletePets()
         if library.flags["autodeleteunlockedpets"] then
             loopfunctions:RunLoop("Auto Delete Unlocked Pets")
@@ -1527,6 +1540,10 @@ do -- ui
             ui.pets:AddToggle({text = "Auto Open Egg", flag = "autoopeneggtog", callback = function(a)
                 library.flags["autoopeneggtog"] = a
                 main:AutoOpenEgg()
+            end})
+            ui.pets:AddToggle({text = "Auto Open 3 Eggs", flag = "autoopen3eggtog", callback = function(a)
+                library.flags["autoopen3eggtog"] = a
+                main:AutoOpen3Eggs()
             end})
             ui.pets:AddToggle({text = "Auto Delete Unlocked Pets", flag = "autodeleteunlockedpets", callback = function(a)
                 library.flags["autodeleteunlockedpets"] = a

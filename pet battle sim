@@ -1238,7 +1238,10 @@ do -- main
         for i,v in pairs(workspace.EggCapsules:GetChildren()) do
             local eggnames = string.sub(v.Name, 1, -8)
             table.insert(main.eggstable, eggnames)
+            table.remove(main.eggstable, 6)
+            print(v.Name)
         end
+        table.insert(main.eggstable, "MagicForestEgg")
         for i,v in pairs(game.ReplicatedStorage.PetDirectory:GetChildren()) do
             if not v.Name:match("Shiny") or v.Name:match("Starry") then
                 table.insert(main.petnames, v.Name)

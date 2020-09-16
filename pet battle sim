@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework", true))()
-local version = "1.4"
+local version = "1.4.1"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -110,6 +110,9 @@ do -- loops
             end
         end
     end, 160)
+    loopfunctions:CreateLoop("Auto Save", function()
+        main:SaveSettings()
+    end, Run.RenderStepped)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
         local args = {
             [1] = "MassDeletePetsFromInventory",
@@ -314,7 +317,6 @@ do -- main
             Settings.msgsoftheday = library.flags.msgsoftheday
             Settings.CursorTog = library.flags.CursorTog
             Settings.watermark = library.flags.watermark
-            Settings.autoloadsettings = library.flags.autoloadsettings
         end
         Save()
     end
@@ -367,12 +369,10 @@ do -- main
         local Settings
         if not pcall(function() readfile(Name) end) then makefolder("Vect0rs Hub") writefile(Name, game:service'HttpService':JSONEncode(library.flags)) end
         Settings = game:service'HttpService':JSONDecode(readfile(Name))
-        if Settings.autoloadsettings then
-            game.CoreGui.uwuware.watermark.Text.MouseButton1Down:Connect(function()
-                main:LoadSettings()
-                main.uisettings.autoloadsettings:SetState(Settings.autoloadsettings)
-            end)
-        end
+        game.CoreGui.uwuware.watermark.Text.MouseButton1Down:Connect(function()
+            main:LoadSettings()
+            loopfunctions:RunLoop("Auto Save")
+        end)
     end
     function main:UwU()
         main.uisettings.togglekey:SetKey("`")
@@ -1807,17 +1807,6 @@ do -- ui
             end
             main.uisettings.togglekey = main.uisettings:AddBind({text = "Toggle UI", key = "Q", callback = function() 
                 library:Close()
-            end})
-            main.uisettings.SaveSetting = main.uisettings:AddFolder("Save Options")
-            main.uisettings.SaveSetting:AddButton({text = "Save Settings", callback = function()
-                main:SaveSettings()
-            end})
-            main.uisettings.SaveSetting:AddButton({text = "Load Settings", callback = function()
-                main:LoadSettings()
-            end})
-            main.uisettings.autoloadsettings = main.uisettings.SaveSetting:AddToggle({text = "Auto Load Settings", flag = "autoloadsettings", callback = function(a)
-                library.flags["autoloadsettings"] = a
-                main:AutoLoadSettings()
             end})
             main.uisettings.ToggleLayout = main.uisettings:AddFolder("Toggle Layout")
             main.uisettings.ToggleLayout:AddButton({text = "Checkmarks", callback = function()

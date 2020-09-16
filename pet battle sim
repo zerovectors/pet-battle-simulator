@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework", true))()
-local version = "1.4.1"
+local version = "1.4.2"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -268,6 +268,14 @@ do -- main
                 n = (n + 0.01) % 1
                 Run.RenderStepped:wait()
             end
+        end)
+    end
+    function main:AntiAfk()
+        local vu = game:GetService("VirtualUser")
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+           vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+           wait(1)
+           vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
     end
     function main:SaveSettings()

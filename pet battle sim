@@ -1819,6 +1819,10 @@ do -- ui
             main.uisettings:AddColor({text = "Cursor Color", flag = "cursorcolor", color = Color3.fromRGB(221, 3, 255), callback = function(a)
                 main:cursorcolor(a)
             end})
+            main.uisettings:AddButton({text = "Simpler UI", callback = function(a)
+                library:Remove()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/pet-battle-simulator/master/simpler%20version", true))()
+            end})
             if main.creator_accounts[MyPlr.UserId] or main.admin_accounts[MyPlr.UserId] then
                 main.uisettings.annoyingstuff = main.uisettings:AddToggleFolder({text = "Shit Smail Hates!", state = true, flag = "annoyshit", callback = function(a)
                     library.flags["annoyshit"] = a

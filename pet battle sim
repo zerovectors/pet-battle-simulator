@@ -110,15 +110,6 @@ do -- loops
             end
         end
     end, 160)
-    loopfunctions:CreateLoop("Messages Of The Day", function()
-        if messages_of_the_day == nil then return end
-        for i = 1, #messages_of_the_day do
-            if library.flags["msgsoftheday"] then
-                main:SystemChat(tostring(messages_of_the_day[i]))
-                wait(60)
-            end
-        end
-    end, Run.RenderStepped)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
         local args = {
             [1] = "MassDeletePetsFromInventory",
@@ -301,7 +292,6 @@ do -- main
         do -- miscellaneous
             Settings.lowgrav = library.flags.lowgrav
             Settings.autofarm = library.flags.autofarm
-            Settings.delay = library.flags.delay
             Settings.autorebirthtog = library.flags.autorebirthtog
             Settings.rebirthamount = library.flags.rebirthamount
             Settings.rebirthdelay = library.flags.rebirthdelay
@@ -350,7 +340,6 @@ do -- main
         do -- miscellaneous
             ui.miscellaneous.lowgravity:SetState(Settings.lowgrav)
             ui.miscellaneous.autofarm:SetState(Settings.autofarm)
-            ui.miscellaneous.autofarmdelay:SetValue(Settings.delay)
             ui.miscellaneous.autorebirth:SetState(Settings.autorebirthtog)
             ui.miscellaneous.rebirthamount:SetValue(Settings.rebirthamount)
             ui.miscellaneous.rebirthdelay:SetValue(Settings.rebirthdelay)
@@ -1753,13 +1742,9 @@ do -- ui
             ui.miscellaneous.lowgravity:AddSlider({text = "Gravity", value = 196, min = 0, max = 196, callback = function(a) 
                 main:gravity(a)
             end})
-            ui.miscellaneous.autofarm = ui.miscellaneous:AddToggleFolder({text = "AutoFarm", flag = "autofarm", callback = function(a)
+            ui.miscellaneous.autofarm = ui.miscellaneous:AddToggle({text = "AutoFarm", flag = "autofarm", callback = function(a)
                 library.flags["autofarm"] = a
                 main:AutoFarm()
-            end})
-            ui.miscellaneous.autofarmdelay = ui.miscellaneous.autofarm:AddSlider({text = "Delay", flag = "delay", value = 0.3, min = 0.1, max = 1, float = 0.1, callback = function(a)
-                library.flags["delay"] = a
-                main.AutoFarmDelay = a
             end})
             ui.miscellaneous.autorebirth = ui.miscellaneous:AddToggleFolder({text = "Auto Rebirth", flag = "autorebirthtog", callback = function(a)
                 library.flags["autorebirthtog"] = a
@@ -1798,11 +1783,11 @@ do -- ui
             ui.pets.selectedpet = ui.pets:AddList({text = "Selected Egg", flag = "selectedegg", values = main.eggstable, callback = function(a)
                 library.flags["selectedegg"] = a
             end})
-            ui.pets.autoopenegg = ui.pets:AddToggleFolder({text = "Auto Open Egg", flag = "autoopeneggtog", callback = function(a)
+            ui.pets.autoopenegg = ui.pets:AddToggle({text = "Auto Open Egg", flag = "autoopeneggtog", callback = function(a)
                 library.flags["autoopeneggtog"] = a
                 main:AutoOpenEgg()
             end})
-            ui.pets.autoopen3eggs = ui.pets.autoopenegg:AddToggle({text = "Auto Open 3 Eggs", flag = "autoopen3eggtog", callback = function(a)
+            ui.pets.autoopen3eggs = ui.pets:AddToggle({text = "Auto Open 3 Eggs", flag = "autoopen3eggtog", callback = function(a)
                 library.flags["autoopen3eggtog"] = a
                 main:AutoOpenEgg()
             end})
@@ -1818,10 +1803,6 @@ do -- ui
             main.uisettings = library:CreateWindow("UI Settings")
             main.uisettings:AddColor({text = "Cursor Color", flag = "cursorcolor", color = Color3.fromRGB(221, 3, 255), callback = function(a)
                 main:cursorcolor(a)
-            end})
-            main.uisettings:AddButton({text = "Simpler UI", callback = function(a)
-                library:Remove()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/pet-battle-simulator/master/simpler%20version", true))()
             end})
             if main.creator_accounts[MyPlr.UserId] or main.admin_accounts[MyPlr.UserId] then
                 main.uisettings.annoyingstuff = main.uisettings:AddToggleFolder({text = "Shit Smail Hates!", state = true, flag = "annoyshit", callback = function(a)

@@ -358,13 +358,8 @@ do -- main
         end
         do -- ui settings
             main.uisettings.annoyingstuff:SetState(Settings.annoyshit)
-            main:AnnoyingShitToggle()
-            main.uisettings.messagesoftheday:SetState(Settings.msgsoftheday)
-            main:StopMsgs()
             main.uisettings.cursor:SetState(Settings.CursorTog)
-            main:CursorTog()
             main.uisettings.watermark:SetState(Settings.watermark)
-            main:Watermark()
         end
     end
     function main:AutoLoadSettings()
@@ -1514,28 +1509,15 @@ do -- main
     end
     function main:AnnoyingShitToggle()
         if library.flags["annoyshit"] then
-            main.uisettings.messagesoftheday:SetState(true)
-            main:StopMsgs()
             main.uisettings.cursor:SetState(true)
-            main:CursorTog()
             main.uisettings.watermark:SetState(true)
         else
-            main.uisettings.messagesoftheday:SetState(false)
-            main:StopMsgs()
             main.uisettings.cursor:SetState(false)
-            main:CursorTog()
             main.uisettings.watermark:SetState(false)
         end
     end
     function main:cursorcolor(val)
         game.CoreGui.uwuware.Cursor.ImageColor3 = val
-    end
-    function main:StopMsgs()
-        if library.flags["msgsoftheday"] then
-            loopfunctions:RunLoop("Messages Of The Day")
-        else
-            loopfunctions:StopLoop("Messages Of The Day")
-        end
     end
     function main:Watermark()
         if library.flags["watermark"] then
@@ -1808,9 +1790,6 @@ do -- ui
                 main.uisettings.annoyingstuff = main.uisettings:AddToggleFolder({text = "Shit Smail Hates!", state = true, flag = "annoyshit", callback = function(a)
                     library.flags["annoyshit"] = a
                     main:AnnoyingShitToggle()
-                end})
-                main.uisettings.messagesoftheday = main.uisettings.annoyingstuff:AddToggle({text = "Messages Of The Day", state = true, flag = "msgsoftheday", callback = function(a)
-                    main:StopMsgs()
                 end})
                 main.uisettings.cursor = main.uisettings.annoyingstuff:AddToggle({text = "Cursor", state = true, flag = "CursorTog", callback = function(a)
                     library.flags["CursorTog"] = a

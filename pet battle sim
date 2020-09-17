@@ -1496,14 +1496,15 @@ do -- main
         end
     end
     function main:AutoOpenEgg()
+        if library.flags["autoopen3eggtog"] then
+            loopfunctions:StopLoop("Auto Open Egg")
+            loopfunctions:RunLoop("Auto Open 3Eggs")
+        elseif library.flags["autoopen3eggtog"] == false then
+            loopfunctions:StopLoop("Auto Open 3Eggs")
+        end
         if library.flags["autoopeneggtog"] then
+            loopfunctions:StopLoop("Auto Open 3Eggs")
             loopfunctions:RunLoop("Auto Open Egg")
-            if library.flags["autoopen3eggtog"] then
-                loopfunctions:StopLoop("Auto Open Egg")
-                loopfunctions:RunLoop("Auto Open 3Eggs")
-            elseif library.flags["autoopen3eggtog"] == false then
-                loopfunctions:StopLoop("Auto Open 3Eggs")
-            end
         else
             loopfunctions:StopLoop("Auto Open Egg")
         end

@@ -110,9 +110,6 @@ do -- loops
             end
         end
     end, 160)
-    loopfunctions:CreateLoop("Auto Save", function()
-        main:SaveSettings()
-    end, Run.RenderStepped)
     loopfunctions:CreateLoop("Auto Delete Unlocked Pets", function()
         local args = {
             [1] = "MassDeletePetsFromInventory",
@@ -379,7 +376,6 @@ do -- main
         Settings = game:service'HttpService':JSONDecode(readfile(Name))
         game.CoreGui.uwuware.watermark.Text.MouseButton1Down:Connect(function()
             main:LoadSettings()
-            loopfunctions:RunLoop("Auto Save")
         end)
     end
     function main:UwU()
@@ -1816,6 +1812,9 @@ do -- ui
             end
             main.uisettings.togglekey = main.uisettings:AddBind({text = "Toggle UI", key = "Q", callback = function() 
                 library:Close()
+            end})
+            main.uisettings.savesettings = main.uisettings:AddButton({text = "Save Settings", callback = function()
+                main:SaveSettings()
             end})
             main.uisettings.ToggleLayout = main.uisettings:AddFolder("Toggle Layout")
             main.uisettings.ToggleLayout:AddButton({text = "Checkmarks", callback = function()

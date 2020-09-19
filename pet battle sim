@@ -2,8 +2,8 @@
 local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework", true))()
-local version = "1.4.2"
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
+local version = "1.5"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -126,14 +126,27 @@ do -- loops
         game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
     end, Run.RenderStepped)
     loopfunctions:CreateLoop("Auto Shiny", function()
-        for i,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
-            if v:IsA("ImageButton") then
-                local args = {
-                    [1] = "MakeShinyPet",
-                    [2] = v.Name,
-                    [3] = library.flags["chosenpettoshine"],
-                }
-                game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
+        for i,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.CenterUIFrame.PetIndex.PetIndexInnerFrame.PetIndexScrollingFrame:GetChildren()) do
+            for i2,v2 in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.CenterUIFrame.PetInventory.PetInventoryInnerFrame.PetInventoryScrollingFrame:GetChildren()) do
+                if v2:IsA("ImageButton") then  
+                    if v:IsA("ImageLabel") then
+                        if v.PetIndexSlotPic.PetImage.Image == v2.PetImage.Image then
+                            if library.flags.ignorelegendarys and v.PetIndexSlotPic.Rarity.Text == "Legendary" then
+                            elseif library.flags.ignorerares and v.PetIndexSlotPic.Rarity.Text == "Rare" then
+                            elseif library.flags.ignorecommons and v.PetIndexSlotPic.Rarity.Text == "Common" then
+                            elseif library.flags.ignoreuncommons and v.PetIndexSlotPic.Rarity.Text == "Uncommon" then
+                            elseif library.flags.ignoreepics and v.PetIndexSlotPic.Rarity.Text == "Epic" then
+                            else
+                                local args = {
+                                    [1] = "MakeShinyPet",
+                                    [2] = v2.Name,
+                                    [3] = v.Name,
+                                }
+                                game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
+                            end
+                        end
+                    end
+                end
             end
         end
     end, Run.RenderStepped)
@@ -184,6 +197,7 @@ do -- main
     main.creator_accounts = {
         [278723686] = true;
         [1871500307] = true;
+        [1897718733] = true;
     };
     main.admin_accounts = {
         [425451555] = true;
@@ -309,13 +323,15 @@ do -- main
             Settings.autobuyrate = library.flags.autobuyrate
         end
         do -- pets / eggs
-            Settings.autoequippets = library.flags.autoequippets
             Settings.autodeleteunlockedpets = library.flags.autodeleteunlockedpets
             Settings.selectedegg = library.flags.selectedegg
             Settings.autoopeneggtog = library.flags.autoopeneggtog
             Settings.autoopen3eggtog = library.flags.autoopen3eggtog
             Settings.autoshinypettog = library.flags.autoshinypettog
-            Settings.chosenpettoshine = library.flags.chosenpettoshine
+            Settings.ignorelegendarys = library.flags.ignorelegendarys
+            Settings.ignorerares = library.flags.ignorerares
+            Settings.ignoreuncommons = library.flags.ignoreuncommons
+            Settings.ignoreepics = library.flags.ignoreepics
         end
         do -- ui settings
             Settings.annoyshit = library.flags.annoyshit
@@ -356,12 +372,14 @@ do -- main
         end
         do -- pets / eggs
             ui.pets.autodeletepets:SetState(Settings.autodeleteunlockedpets)
-            ui.pets.autoequipbestpets:SetState(Settings.autoequippets)
             ui.pets.selectedpet:SetValue(Settings.selectedegg)
             ui.pets.autoopenegg:SetState(Settings.autoopeneggtog)
             ui.pets.autoopen3eggs:SetState(Settings.autoopen3eggtog)
             ui.pets.autoshiny:SetState(Settings.autoshinypettog)
-            ui.pets.chosenshiny:SetValue(Settings.chosenpettoshine)
+            ui.pets.ignorelegendarys:SetState(Settings.ignorelegendarys)
+            ui.pets.ignorerares:SetState(Settings.ignorerares)
+            ui.pets.ignoreuncommons:SetState(Settings.ignoreuncommons)
+            ui.pets.ignoreepics:SetState(Settings.ignoreepics)
         end
         do -- ui settings
             main.uisettings.annoyingstuff:SetState(Settings.annoyshit)
@@ -377,24 +395,6 @@ do -- main
         game.CoreGui.uwuware.watermark.Text.MouseButton1Down:Connect(function()
             main:LoadSettings()
         end)
-    end
-    function main:UwU()
-        main.uisettings.togglekey:SetKey("`")
-        library:Remove()
-        library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
-        ui:Init()
-        library:Init()
-        library:Close()
-        main:AutoLoadSettings()
-    end
-    function main:Default()
-        main.uisettings.togglekey:SetKey("[")
-        library:Remove()
-        library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework", true))()
-        ui:Init()
-        library:Init()
-        library:Close()
-        main:AutoLoadSettings()
     end
     function main:fullbright()
         if library.flags.FullBright then
@@ -1782,8 +1782,17 @@ do -- ui
                 library.flags["autoshinypettog"] = a
                 main:AutoShinyPet()
             end})
-            ui.pets.chosenshiny = ui.pets.autoshiny:AddList({text = "Auto Shiny Pet", flag = "chosenpettoshine", values = main.petnames, callback = function(a)
-                library.flags["chosenpettoshine"] = a
+            ui.pets.ignorelegendarys = ui.pets.autoshiny:AddToggle({text = "Ignore Legendarys", state = true, flag = "ignorelegendarys", callback = function(a)
+                library.flags["ignorelegendarys"] = a
+            end})
+            ui.pets.ignorerares = ui.pets.autoshiny:AddToggle({text = "Ignore Rares", flag = "ignorerares", callback = function(a)
+                library.flags["ignorerares"] = a
+            end})
+            ui.pets.ignoreepics = ui.pets.autoshiny:AddToggle({text = "Ignore Epics", flag = "ignoreepics", callback = function(a)
+                library.flags["ignoreepics"] = a
+            end})
+            ui.pets.ignoreuncommons = ui.pets.autoshiny:AddToggle({text = "Ignore Uncommons", flag = "ignoreuncommons", callback = function(a)
+                library.flags["ignoreuncommons"] = a
             end})
         end
         do -- ui settings
@@ -1817,12 +1826,6 @@ do -- ui
                 main:SaveSettings()
             end})
             main.uisettings.ToggleLayout = main.uisettings:AddFolder("Toggle Layout")
-            main.uisettings.ToggleLayout:AddButton({text = "Checkmarks", callback = function()
-                main:UwU()
-            end})
-            main.uisettings.ToggleLayout:AddButton({text = "Default", callback = function()
-                main:Default()
-            end})
             main.topbar = main.uisettings:AddFolder("Top Bar")
             main.topbar:AddColor({text = "Line Colour", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)
                 main:splitlinecolor(a)

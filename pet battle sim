@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
-local version = "1.5"
+local version = "1.6"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -221,6 +221,7 @@ do -- main
     main.eggstable = { };
     main.petnames = { };
     main.upgradenames = { };
+    main.rebirthvalues = { };
     if main.espsettings.CHAMSLength > 2048 then
         main.espsettings.CHAMSLength = 2048
     end;
@@ -1313,7 +1314,12 @@ do -- main
             end
             local eggnames = string.sub(v.Name, 1, -8)
             table.insert(main.eggstable, eggnames)
-            print(v.Name)
+        end
+        for i,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.CenterUIFrame.RebirthFrame.RebirthInnerFrame.Scrolling:GetChildren()) do
+            if v:IsA("Frame") then
+                local rebirthvalues = string.sub(v.Name, 8, -6)
+                table.insert(main.rebirthvalues, rebirthvalues)
+            end
         end
         for i,v in pairs(game.ReplicatedStorage.PetDirectory:GetChildren()) do
             if not v.Name:match("Shiny") or v.Name:match("Starry") then
@@ -1737,7 +1743,7 @@ do -- ui
                 library.flags["autorebirthtog"] = a
                 main:AutoRebirth()
             end})
-            ui.miscellaneous.rebirthamount = ui.miscellaneous.autorebirth:AddBox({text = "Rebirth Amount", flag = "rebirthamount", value = "1", callback = function(a)
+            ui.miscellaneous.rebirthamount = ui.miscellaneous.autorebirth:AddList({text = "Rebirth Values", flag = "rebirthamount", values = main.rebirthvalues, callback = function(a)
                 library.flags["rebirthamount"] = a
             end})
             ui.miscellaneous.rebirthdelay = ui.miscellaneous.autorebirth:AddSlider({text = "Rebirth Delay", flag = "rebirthdelay", value = 0, min = 0, max = 2, float = 0.2, callback = function(a)
@@ -1825,7 +1831,6 @@ do -- ui
             main.uisettings.savesettings = main.uisettings:AddButton({text = "Save Settings", callback = function()
                 main:SaveSettings()
             end})
-            main.uisettings.ToggleLayout = main.uisettings:AddFolder("Toggle Layout")
             main.topbar = main.uisettings:AddFolder("Top Bar")
             main.topbar:AddColor({text = "Line Colour", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)
                 main:splitlinecolor(a)

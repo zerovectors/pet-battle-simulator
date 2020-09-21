@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
-local version = "1.6"
+local version = "1.7"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -176,6 +176,12 @@ do -- loops
         game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
         wait(library.flags["autobuyrate"])
     end, Run.RenderStepped)
+    loopfunctions:CreateLoop("Auto Spin Wheel", function()
+        local args = {
+            [1] = "GenerateRewardWheelResult",
+        }
+        game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
+    end, 500)
 end
 do -- main
     main.espsettings = {
@@ -315,6 +321,7 @@ do -- main
         do -- miscellaneous
             Settings.lowgrav = library.flags.lowgrav
             Settings.autofarm = library.flags.autofarm
+            Settings.autospinwheel = library.flags.autospinwheel
             Settings.autorebirthtog = library.flags.autorebirthtog
             Settings.rebirthamount = library.flags.rebirthamount
             Settings.rebirthdelay = library.flags.rebirthdelay
@@ -364,6 +371,7 @@ do -- main
         do -- miscellaneous
             ui.miscellaneous.lowgravity:SetState(Settings.lowgrav)
             ui.miscellaneous.autofarm:SetState(Settings.autofarm)
+            ui.miscellaneous.autospinwheel:SetState(Settings.autospinwheel)
             ui.miscellaneous.autorebirth:SetState(Settings.autorebirthtog)
             ui.miscellaneous.rebirthamount:SetValue(Settings.rebirthamount)
             ui.miscellaneous.rebirthdelay:SetValue(Settings.rebirthdelay)
@@ -1359,6 +1367,13 @@ do -- main
             loopfunctions:StopLoop("AutoFarm")
         end
     end
+    function main:AutoSpinWheel()
+        if library.flags.autospinwheel then
+            loopfunctions:RunLoop("Auto Spin Wheel")
+        else
+            loopfunctions:StopLoop("Auto Spin Wheel")
+        end
+    end
     function main:AutoRebirth()
         if library.flags["autorebirthtog"] then
             loopfunctions:RunLoop("Auto Rebirth")
@@ -1738,6 +1753,10 @@ do -- ui
             ui.miscellaneous.autofarm = ui.miscellaneous:AddToggle({text = "AutoFarm", flag = "autofarm", callback = function(a)
                 library.flags["autofarm"] = a
                 main:AutoFarm()
+            end})
+            ui.miscellaneous.autospinwheel = ui.miscellaneous:AddToggle({text = "Auto Spin Wheel", flag = "autospinwheel", callback = function(a)
+                library.flags["autospinwheel"] = a
+                main:AutoSpinWheel()
             end})
             ui.miscellaneous.autorebirth = ui.miscellaneous:AddToggleFolder({text = "Auto Rebirth", flag = "autorebirthtog", callback = function(a)
                 library.flags["autorebirthtog"] = a

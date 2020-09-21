@@ -405,6 +405,9 @@ do -- main
             main.uisettings.watermark:SetState(Settings.watermark)
         end
     end
+    function main:DeleteSettings()
+        delfile("Vect0rs Hub/Pet Battle Simuwulator.evelynn")
+    end
     function main:AutoLoadSettings()
         local Name = "Vect0rs Hub/Pet Battle Simuwulator.evelynn"
         local Settings
@@ -1869,6 +1872,9 @@ do -- ui
             end})
             main.uisettings.savesettings = main.uisettings:AddButton({text = "Save Settings", callback = function()
                 main:SaveSettings()
+            end})
+            main.uisettings.deletesettings = main.uisettings:AddButton({text = "Delete Settings", callback = function()
+                main:DeleteSettings()
             end})
             main.topbar = main.uisettings:AddFolder("Top Bar")
             main.topbar:AddColor({text = "Line Colour", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)

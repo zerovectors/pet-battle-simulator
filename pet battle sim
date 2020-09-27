@@ -207,15 +207,6 @@ do -- main
         CharAddedEvent = { };
         Mob_ESP_CHAMS_Ran_Once = false;
     };
-    main.creator_accounts = {
-        [278723686] = true;
-        [1871500307] = true;
-        [1897718733] = true;
-    };
-    main.admin_accounts = {
-        [425451555] = true;
-        [516093458] = true;
-    };
     main.whitelisted_accounts = {
         [278723686] = true;
         [425451555] = true;
@@ -1654,12 +1645,12 @@ do -- main
                 main.TracerMT[Plr.Name] = Char.HumanoidRootPart
             end)
         end
-        if main.creator_accounts[Plr.UserId] then
+        if getrenv().creator_accounts[Plr.UserId] then
             library:SendNotification("Max Has Joined Your Server")
-            main:SystemChat("I Have Join Your Server")
-        elseif main.admin_accounts[Plr.UserId] then
+            main:SystemChat("I Have Joined Your Server")
+        elseif getrenv().admin_accounts[Plr.UserId] then
             library:SendNotification("Smail Has Joined Your Server!")
-            main:SystemChat("Smail Has Join Your Server")
+            main:SystemChat("Smail Has Joined Your Server")
         end
     end)
     Plrs.PlayerRemoving:Connect(function(Plr)
@@ -1667,10 +1658,10 @@ do -- main
             main.espsettings.CharAddedEvent[Plr.Name]:Disconnect()
             main.espsettings.CharAddedEvent[Plr.Name] = nil
         end
-        if main.creator_accounts[Plr.UserId] then
+        if getrenv().creator_accounts[Plr.UserId] then
             library:SendNotification("Max Has Left Your Server!")
-            main:SystemChat("Smail Have Left Your Server")
-        elseif main.admin_accounts[Plr.UserId] then
+            main:SystemChat("I Have Left Your Server")
+        elseif getrenv().admin_accounts[Plr.UserId] then
             library:SendNotification("Smail Has Left Your Server!")
             main:SystemChat("Smail Has Left Your Server")
         end

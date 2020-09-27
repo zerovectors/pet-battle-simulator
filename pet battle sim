@@ -1839,7 +1839,7 @@ do -- ui
             main.uisettings:AddColor({text = "Cursor Color", flag = "cursorcolor", color = Color3.fromRGB(221, 3, 255), callback = function(a)
                 main:cursorcolor(a)
             end})
-            if main.creator_accounts[MyPlr.UserId] or main.admin_accounts[MyPlr.UserId] then
+            if getrenv().creator_accounts[MyPlr.UserId] or getrenv().admin_accounts[MyPlr.UserId] then
                 main.uisettings.annoyingstuff = main.uisettings:AddToggleFolder({text = "Shit Smail Hates!", state = true, flag = "annoyshit", callback = function(a)
                     library.flags["annoyshit"] = a
                     main:AnnoyingShitToggle()
@@ -1879,7 +1879,7 @@ do -- ui
             end})
         end
         do -- developer options
-            if main.creator_accounts[MyPlr.UserId] then
+            if getrenv().creator_accounts[MyPlr.UserId] then
                 main.developer = library:CreateWindow("Developer")
                 main.developer:AddButton({text = "Remote Spy", callback = function()
                     main:loadspy()

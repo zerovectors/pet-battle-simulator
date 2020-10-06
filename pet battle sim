@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
-local version = "1.8"
+local version = "1.9"
 local uiname = "Pet Battle Simulator"
 local ui = { }
 local main = { }
@@ -186,6 +186,13 @@ do -- loops
         local args = {
             [1] = "CollectTreasure",
             [2] = "TreasureChest",
+        }
+        game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
+    end, Run.RenderStepped)
+    loopfunctions:CreateLoop("Auto Collect Event Treasure", function()
+        local args = {
+            [1] = "CollectTreasure",
+            [2] = "EventTreasureChest",
         }
         game:GetService("ReplicatedStorage").RemoteFunctions.MainRemoteFunction:InvokeServer(unpack(args))
     end, Run.RenderStepped)
@@ -1355,6 +1362,14 @@ do -- main
         end)
         warn('done tables')
     end
+    function main.detecteventchest()
+        if workspace.Treasure:FindFirstChild("EventTreasureChest") then
+            ui.miscellaneous.autoopeneventtreasure = ui.miscellaneous:AddToggle({text = "Auto Open Event Treasure", flag = "autoopeneventtreasure", callback = function(a)
+                library.flags["autoopeneventtreasure"] = a
+                main:AutoOpenTreasure()
+            end})
+        end
+    end
     function main:AutoFarm()
         if library.flags["autofarm"] then
             loopfunctions:RunLoop("AutoFarm")
@@ -1374,6 +1389,11 @@ do -- main
             loopfunctions:RunLoop("Auto Collect Treasure")
         else
             loopfunctions:StopLoop("Auto Collect Treasure")
+        end
+        if library.flags["autoopeneventtreasure"] then
+            loopfunctions:RunLoop("Auto Collect Event Treasure")
+        else
+            loopfunctions:StopLoop("Auto Collect Event Treasure")
         end
     end
     function main:AutoRebirth()
@@ -1796,6 +1816,7 @@ do -- ui
                 library.flags["autoopentreasure"] = a
                 main:AutoOpenTreasure()
             end})
+            main.detecteventchest()
             ui.miscellaneous.autorebirth = ui.miscellaneous:AddToggleFolder({text = "Auto Rebirth", flag = "autorebirthtog", callback = function(a)
                 library.flags["autorebirthtog"] = a
                 main:AutoRebirth()
